@@ -1,0 +1,6 @@
+{
+  "name": "CONSTRUCTA",
+  "description": "Enterprise ERP, Financial Accounting, and Project Management System for Multi-Partner Construction Companies.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

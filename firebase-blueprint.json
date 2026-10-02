@@ -1,0 +1,489 @@
+{
+  "entities": {
+    "CompanySettings": {
+      "title": "Company Settings",
+      "description": "Enterprise company configuration and financial defaults",
+      "type": "object",
+      "properties": {
+        "companyName": { "type": "string" },
+        "companyNameAr": { "type": "string" },
+        "taxNumber": { "type": "string" },
+        "commercialRegister": { "type": "string" },
+        "phone": { "type": "string" },
+        "email": { "type": "string" },
+        "address": { "type": "string" },
+        "currency": { "type": "string" },
+        "invoicePrefix": { "type": "string" },
+        "nextInvoiceNumber": { "type": "number" },
+        "fiscalYear": { "type": "string" },
+        "defaultLanguage": { "type": "string" },
+        "defaultTheme": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["companyName", "currency"]
+    },
+    "Partner": {
+      "title": "Partner",
+      "description": "Company shareholder with equity and profit distribution ratios",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "nameAr": { "type": "string" },
+        "phone": { "type": "string" },
+        "email": { "type": "string" },
+        "ownershipPercentage": { "type": "number" },
+        "profitSharePercentage": { "type": "number" },
+        "lossSharePercentage": { "type": "number" },
+        "capitalContribution": { "type": "number" },
+        "currentBalance": { "type": "number" },
+        "totalWithdrawals": { "type": "number" },
+        "notes": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["name", "ownershipPercentage", "profitSharePercentage"]
+    },
+    "PartnerTransaction": {
+      "title": "Partner Transaction",
+      "description": "Ledger entry for partner contributions, withdrawals, or profit distributions",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "partnerId": { "type": "string" },
+        "partnerName": { "type": "string" },
+        "type": { "type": "string", "enum": ["capital_contribution", "withdrawal", "expense_paid_on_behalf", "money_received", "profit_distribution", "other"] },
+        "amount": { "type": "number" },
+        "date": { "type": "string" },
+        "paymentMethod": { "type": "string", "enum": ["cash", "bank"] },
+        "cashboxOrBankId": { "type": "string" },
+        "description": { "type": "string" },
+        "reference": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["partnerId", "type", "amount", "date"]
+    },
+    "Project": {
+      "title": "Project",
+      "description": "Construction project record with financial tracking",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "code": { "type": "string" },
+        "name": { "type": "string" },
+        "nameAr": { "type": "string" },
+        "clientId": { "type": "string" },
+        "clientName": { "type": "string" },
+        "contractValue": { "type": "number" },
+        "startDate": { "type": "string" },
+        "expectedEndDate": { "type": "string" },
+        "actualEndDate": { "type": "string" },
+        "projectManager": { "type": "string" },
+        "status": { "type": "string", "enum": ["Planning", "Active", "On Hold", "Completed", "Cancelled"] },
+        "progress": { "type": "number" },
+        "expectedCost": { "type": "number" },
+        "actualCost": { "type": "number" },
+        "totalInvoiced": { "type": "number" },
+        "totalCollected": { "type": "number" },
+        "location": { "type": "string" },
+        "notes": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["code", "name", "contractValue", "status"]
+    },
+    "Contract": {
+      "title": "Contract",
+      "description": "Client project agreement terms and retentions",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "contractNumber": { "type": "string" },
+        "clientId": { "type": "string" },
+        "clientName": { "type": "string" },
+        "projectId": { "type": "string" },
+        "projectName": { "type": "string" },
+        "contractValue": { "type": "number" },
+        "retentionPercentage": { "type": "number" },
+        "retentionAmount": { "type": "number" },
+        "startDate": { "type": "string" },
+        "endDate": { "type": "string" },
+        "paymentTerms": { "type": "string" },
+        "status": { "type": "string" },
+        "notes": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["contractNumber", "clientId", "projectId", "contractValue"]
+    },
+    "Client": {
+      "title": "Client",
+      "description": "Customer entity receiving construction services",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "company": { "type": "string" },
+        "phone": { "type": "string" },
+        "email": { "type": "string" },
+        "address": { "type": "string" },
+        "taxNumber": { "type": "string" },
+        "currentBalance": { "type": "number" },
+        "totalInvoiced": { "type": "number" },
+        "totalPaid": { "type": "number" },
+        "notes": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["name", "phone"]
+    },
+    "Supplier": {
+      "title": "Supplier",
+      "description": "Material or equipment vendor",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "company": { "type": "string" },
+        "phone": { "type": "string" },
+        "email": { "type": "string" },
+        "address": { "type": "string" },
+        "taxNumber": { "type": "string" },
+        "currentBalance": { "type": "number" },
+        "totalPurchases": { "type": "number" },
+        "totalPaid": { "type": "number" },
+        "notes": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["name", "phone"]
+    },
+    "Purchase": {
+      "title": "Purchase Invoice",
+      "description": "Procurement bills for materials, tools, or equipment",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "invoiceNumber": { "type": "string" },
+        "supplierId": { "type": "string" },
+        "supplierName": { "type": "string" },
+        "projectId": { "type": "string" },
+        "projectName": { "type": "string" },
+        "date": { "type": "string" },
+        "category": { "type": "string", "enum": ["Materials", "Equipment", "Tools", "Services", "Other"] },
+        "items": { "type": "string" },
+        "subtotal": { "type": "number" },
+        "discount": { "type": "number" },
+        "tax": { "type": "number" },
+        "total": { "type": "number" },
+        "paid": { "type": "number" },
+        "remaining": { "type": "number" },
+        "paymentMethod": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["invoiceNumber", "supplierId", "total", "date"]
+    },
+    "Expense": {
+      "title": "Expense",
+      "description": "Project or overhead company expenditure",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "expenseType": { "type": "string", "enum": ["project", "company"] },
+        "category": { "type": "string" },
+        "amount": { "type": "number" },
+        "date": { "type": "string" },
+        "projectId": { "type": "string" },
+        "projectName": { "type": "string" },
+        "paymentMethod": { "type": "string", "enum": ["cash", "bank"] },
+        "sourceId": { "type": "string" },
+        "description": { "type": "string" },
+        "createdBy": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["expenseType", "category", "amount", "date", "paymentMethod"]
+    },
+    "Cashbox": {
+      "title": "Cashbox Transaction",
+      "description": "Cash ledger movement",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "type": { "type": "string", "enum": ["in", "out", "transfer"] },
+        "amount": { "type": "number" },
+        "date": { "type": "string" },
+        "description": { "type": "string" },
+        "reference": { "type": "string" },
+        "category": { "type": "string" },
+        "user": { "type": "string" },
+        "balanceAfter": { "type": "number" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["type", "amount", "date"]
+    },
+    "BankAccount": {
+      "title": "Bank Account",
+      "description": "Commercial bank account record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "bankName": { "type": "string" },
+        "accountName": { "type": "string" },
+        "accountNumber": { "type": "string" },
+        "openingBalance": { "type": "number" },
+        "currentBalance": { "type": "number" },
+        "currency": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["bankName", "accountNumber", "currentBalance"]
+    },
+    "BankTransaction": {
+      "title": "Bank Transaction",
+      "description": "Bank account deposit, withdrawal, or transfer",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "bankId": { "type": "string" },
+        "type": { "type": "string", "enum": ["deposit", "withdrawal", "transfer"] },
+        "amount": { "type": "number" },
+        "date": { "type": "string" },
+        "description": { "type": "string" },
+        "reference": { "type": "string" },
+        "balanceAfter": { "type": "number" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["bankId", "type", "amount", "date"]
+    },
+    "Material": {
+      "title": "Material Inventory",
+      "description": "Construction raw materials and warehouse stock",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "code": { "type": "string" },
+        "name": { "type": "string" },
+        "nameAr": { "type": "string" },
+        "category": { "type": "string" },
+        "unit": { "type": "string" },
+        "currentQuantity": { "type": "number" },
+        "minimumQuantity": { "type": "number" },
+        "averageCost": { "type": "number" },
+        "lastPurchasePrice": { "type": "number" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["code", "name", "unit", "currentQuantity"]
+    },
+    "InventoryTransaction": {
+      "title": "Inventory Transaction",
+      "description": "Stock in, stock out, project issue, or inventory adjustment",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "materialId": { "type": "string" },
+        "materialName": { "type": "string" },
+        "type": { "type": "string", "enum": ["in", "out", "transfer", "adjustment"] },
+        "quantity": { "type": "number" },
+        "unitCost": { "type": "number" },
+        "totalCost": { "type": "number" },
+        "projectId": { "type": "string" },
+        "date": { "type": "string" },
+        "notes": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["materialId", "type", "quantity", "date"]
+    },
+    "Subcontractor": {
+      "title": "Subcontractor",
+      "description": "Specialist contractor for electrical, plumbing, masonry, etc.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "company": { "type": "string" },
+        "phone": { "type": "string" },
+        "specialty": { "type": "string" },
+        "totalContracts": { "type": "number" },
+        "totalPaid": { "type": "number" },
+        "currentBalance": { "type": "number" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["name", "phone"]
+    },
+    "SubcontractorContract": {
+      "title": "Subcontractor Contract",
+      "description": "Subcontract agreement for a specific project phase",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "subcontractorId": { "type": "string" },
+        "subcontractorName": { "type": "string" },
+        "projectId": { "type": "string" },
+        "projectName": { "type": "string" },
+        "contractValue": { "type": "number" },
+        "paid": { "type": "number" },
+        "remaining": { "type": "number" },
+        "progress": { "type": "number" },
+        "startDate": { "type": "string" },
+        "endDate": { "type": "string" },
+        "notes": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["subcontractorId", "projectId", "contractValue"]
+    },
+    "Employee": {
+      "title": "Employee & Labor",
+      "description": "Staff member, site engineer, or labor personnel",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "jobTitle": { "type": "string" },
+        "phone": { "type": "string" },
+        "type": { "type": "string", "enum": ["monthly", "daily"] },
+        "rate": { "type": "number" },
+        "assignedProjectId": { "type": "string" },
+        "status": { "type": "string", "enum": ["active", "inactive"] },
+        "totalPaid": { "type": "number" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["name", "jobTitle", "rate"]
+    },
+    "Invoice": {
+      "title": "Sales Invoice",
+      "description": "Client progress invoice or certificate billing",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "invoiceNumber": { "type": "string" },
+        "clientId": { "type": "string" },
+        "clientName": { "type": "string" },
+        "projectId": { "type": "string" },
+        "projectName": { "type": "string" },
+        "date": { "type": "string" },
+        "dueDate": { "type": "string" },
+        "items": { "type": "string" },
+        "subtotal": { "type": "number" },
+        "discount": { "type": "number" },
+        "tax": { "type": "number" },
+        "total": { "type": "number" },
+        "paid": { "type": "number" },
+        "remaining": { "type": "number" },
+        "status": { "type": "string", "enum": ["Draft", "Sent", "Partially Paid", "Paid", "Overdue"] },
+        "notes": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["invoiceNumber", "clientId", "projectId", "total", "date"]
+    },
+    "AuditLog": {
+      "title": "Audit Log",
+      "description": "Immutable security and audit track record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "user": { "type": "string" },
+        "action": { "type": "string" },
+        "entity": { "type": "string" },
+        "entityId": { "type": "string" },
+        "details": { "type": "string" },
+        "timestamp": { "type": "string" }
+      },
+      "required": ["action", "entity", "timestamp"]
+    },
+    "AppNotification": {
+      "title": "Notification",
+      "description": "System alerts, due dates, low stock, and budget warnings",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "titleAr": { "type": "string" },
+        "message": { "type": "string" },
+        "messageAr": { "type": "string" },
+        "type": { "type": "string", "enum": ["warning", "info", "success", "danger"] },
+        "isRead": { "type": "boolean" },
+        "link": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["title", "message", "type"]
+    }
+  },
+  "firestore": {
+    "/settings/company": {
+      "schema": "CompanySettings",
+      "description": "Company profile and financial accounting parameters"
+    },
+    "/partners/{partnerId}": {
+      "schema": "Partner",
+      "description": "Partner equity details"
+    },
+    "/partner_transactions/{transactionId}": {
+      "schema": "PartnerTransaction",
+      "description": "Partner capital, withdrawal, and profit records"
+    },
+    "/projects/{projectId}": {
+      "schema": "Project",
+      "description": "Construction projects and contract financials"
+    },
+    "/contracts/{contractId}": {
+      "schema": "Contract",
+      "description": "Legal client project contracts"
+    },
+    "/clients/{clientId}": {
+      "schema": "Client",
+      "description": "Clients and owners"
+    },
+    "/suppliers/{supplierId}": {
+      "schema": "Supplier",
+      "description": "Suppliers and vendors"
+    },
+    "/purchases/{purchaseId}": {
+      "schema": "Purchase",
+      "description": "Bills and procurement records"
+    },
+    "/expenses/{expenseId}": {
+      "schema": "Expense",
+      "description": "Project and overhead expenditures"
+    },
+    "/cashbox_transactions/{transId}": {
+      "schema": "Cashbox",
+      "description": "Physical cash movements"
+    },
+    "/bank_accounts/{bankId}": {
+      "schema": "BankAccount",
+      "description": "Company bank accounts"
+    },
+    "/bank_transactions/{transId}": {
+      "schema": "BankTransaction",
+      "description": "Bank account statements and transactions"
+    },
+    "/materials/{materialId}": {
+      "schema": "Material",
+      "description": "Inventory stock catalog"
+    },
+    "/inventory_transactions/{transId}": {
+      "schema": "InventoryTransaction",
+      "description": "Material additions and project dispatches"
+    },
+    "/subcontractors/{subcontractorId}": {
+      "schema": "Subcontractor",
+      "description": "Subcontractor directory"
+    },
+    "/subcontractor_contracts/{contractId}": {
+      "schema": "SubcontractorContract",
+      "description": "Subcontract agreements on projects"
+    },
+    "/employees/{employeeId}": {
+      "schema": "Employee",
+      "description": "Workforce and labor personnel"
+    },
+    "/invoices/{invoiceId}": {
+      "schema": "Invoice",
+      "description": "Client invoices and revenue records"
+    },
+    "/audit_logs/{logId}": {
+      "schema": "AuditLog",
+      "description": "Audit trails"
+    },
+    "/notifications/{notifId}": {
+      "schema": "AppNotification",
+      "description": "System notifications"
+    }
+  }
+}

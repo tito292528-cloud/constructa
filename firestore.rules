@@ -1,0 +1,152 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // Default deny catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Company Settings
+    match /settings/{settingId} {
+      allow read: if true;
+      allow write: if isSignedIn() || request.auth == null;
+    }
+
+    // Partners
+    match /partners/{partnerId} {
+      allow read: if true;
+      allow write: if isValidId(partnerId);
+    }
+
+    // Partner Transactions
+    match /partner_transactions/{transactionId} {
+      allow read: if true;
+      allow write: if isValidId(transactionId);
+    }
+
+    // Projects
+    match /projects/{projectId} {
+      allow read: if true;
+      allow write: if isValidId(projectId);
+    }
+
+    // Contracts
+    match /contracts/{contractId} {
+      allow read: if true;
+      allow write: if isValidId(contractId);
+    }
+
+    // Clients
+    match /clients/{clientId} {
+      allow read: if true;
+      allow write: if isValidId(clientId);
+    }
+
+    // Suppliers
+    match /suppliers/{supplierId} {
+      allow read: if true;
+      allow write: if isValidId(supplierId);
+    }
+
+    // Purchases
+    match /purchases/{purchaseId} {
+      allow read: if true;
+      allow write: if isValidId(purchaseId);
+    }
+
+    // Expenses
+    match /expenses/{expenseId} {
+      allow read: if true;
+      allow write: if isValidId(expenseId);
+    }
+
+    // Cashbox Transactions
+    match /cashbox_transactions/{transId} {
+      allow read: if true;
+      allow write: if isValidId(transId);
+    }
+
+    // Bank Accounts
+    match /bank_accounts/{bankId} {
+      allow read: if true;
+      allow write: if isValidId(bankId);
+    }
+
+    // Bank Transactions
+    match /bank_transactions/{transId} {
+      allow read: if true;
+      allow write: if isValidId(transId);
+    }
+
+    // Materials Inventory
+    match /materials/{materialId} {
+      allow read: if true;
+      allow write: if isValidId(materialId);
+    }
+
+    // Inventory Transactions
+    match /inventory_transactions/{transId} {
+      allow read: if true;
+      allow write: if isValidId(transId);
+    }
+
+    // Subcontractors
+    match /subcontractors/{subcontractorId} {
+      allow read: if true;
+      allow write: if isValidId(subcontractorId);
+    }
+
+    // Subcontractor Contracts
+    match /subcontractor_contracts/{contractId} {
+      allow read: if true;
+      allow write: if isValidId(contractId);
+    }
+
+    // Employees
+    match /employees/{employeeId} {
+      allow read: if true;
+      allow write: if isValidId(employeeId);
+    }
+
+    // Invoices
+    match /invoices/{invoiceId} {
+      allow read: if true;
+      allow write: if isValidId(invoiceId);
+    }
+
+    // Audit Logs
+    match /audit_logs/{logId} {
+      allow read: if true;
+      allow create: if isValidId(logId);
+      allow update, delete: if false; // Immutable audit log
+    }
+
+    // Notifications
+    match /notifications/{notifId} {
+      allow read: if true;
+      allow write: if isValidId(notifId);
+    }
+
+    // Test connection doc
+    match /test/{docId} {
+      allow read, write: if true;
+    }
+  }
+}
